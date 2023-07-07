@@ -1,0 +1,41 @@
+ .btn-adddata{
+    
+    background-color: green
+ }
+
+ .head-contentname{
+    
+    background-color: rgb(224, 225, 222);
+ }
+
+ .shortingbtn{
+   border: none;
+   color: green;
+   font-size: 16px;
+   font-weight: 700;
+   background-color: transparent;
+
+ }
+
+
+
+ .loading-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 300px; /* Adjust the height according to your layout */
+ }
+ 
+
+ 
+
+
+ 
+  @media (min-width: 1500px) and (min-height: 900px) {
+    .Largescreen{
+width:100% ;
+margin-left: 55px;
+
+    }
+
+  } 

@@ -1,0 +1,10 @@
+/* @media (max-width: 600px) {
+    .container.parents {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .container.parents > * {
+      width: 100%;
+    }
+  } */
