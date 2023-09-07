@@ -1,4 +1,4 @@
-import { TextField, Grid, Typography, Link, Button } from "@mui/material";
+import { TextField, Grid, Card, Typography, Link, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -7,17 +7,13 @@ import PasswordInput from "../../components/PasswordInput";
 import useAuth from "../../components/hooks/useAuth";
 import useAlert from "../../components/hooks/useAlert";
 import Stack from "@mui/material/Stack";
-import {
-  GoogleLoginButton,
- } from "react-social-login-buttons";
+import { GoogleLoginButton } from "react-social-login-buttons";
 import Divider from "../../components/Divider";
 import Container from "../../components/Container";
-
-
-
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
 
 function SignIn() {
-
   const { setMessage } = useAlert();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -27,26 +23,18 @@ function SignIn() {
 
   const { login, googleLogin, forgotPassword } = useAuth();
 
-
-
-
-
-
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
-
-
-
   const forgotPasswordHandler = () => {
     const { email } = formData;
-  
+
     if (!email) {
       setMessage({ type: "error", text: "Please enter your email address." });
       return;
     }
-  
+
     forgotPassword(email)
       .then(() => {
         setMessage({
@@ -69,12 +57,6 @@ function SignIn() {
         }
       });
   };
-  
-  
-
-
-
-
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -110,11 +92,10 @@ function SignIn() {
 
     try {
       await login({ email, password });
- 
-const userData=localStorage.getItem('userdata')
-console.log('uid from signin',userData)
-      navigate("/", { formData: formData });
 
+      const userData = localStorage.getItem("userdata");
+      console.log("uid from signin", userData);
+      navigate("/", { formData: formData });
     } catch (error) {
       if (error.response) {
         setMessage({
@@ -150,154 +131,122 @@ console.log('uid from signin',userData)
     }
   }
 
- 
-
   return (
     <>
-      <div className="container parents">
-        <Grid container spacing={2} columns={16}>
-          <Grid item xs={8}>
-            <div
-              className="child1"
-              // class="row align-items-center pt-5 pt-sm-4 pt-md-0 px-3 px-sm-4 px-lg-0 "
-              style={{
-                backgroundImage: `url(./images2/cartoon2.gif)`,
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center center",
-                height: "100vh",
-                // position: "relative",
+      <Box
+        display="flex"
+        flexDirection={{ xs: "column", sm: "row" }}
+        alignItems="center"
+        justifyContent="center"
+        padding={10}
+        height={"100%"}
+      >
+        {/* Left Side Card for Image */}
+        <Card
+          sx={{
+            maxWidth: 700,
+            minWidth: 300,
+            margin: 2,
+            display: { xs: "none", sm: "block" },
+            boxShadow: "none",
+          }}
+        >
+          <CardMedia
+            component="img"
+            height="100%"
+            image="./images2/cartoon2.gif"
+            alt="Image"
+          />
+        </Card>
+
+        {/* Right Side Card for Data and Form */}
+        <Card
+          sx={{ maxWidth: 700, minWidth: 300, margin: 2, boxShadow: "none" }}
+        >
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{
+                color: "green",
               }}
-            ></div>{" "}
-          </Grid>
-          <Grid item xs={8}>
-            <div className="child2" style={{textAlign:'center',alignContent:'center', marginTop:50  }}>
-              <Form onSubmit={handleSubmit} >
-                
-                  <Container>
-                    <Typography
-                      sx={{
-                        marginBottom: "20px",
-                        color: "green",
-                        marginTop: "-90px",
-                        marginRight: "190px",
-                      }}
-                      fontSize={25}
-                      component="h1"
-                      fontWeight={400}
-                    >
-                      Sign-In To Your Website
-                    </Typography>
-                    <br />
-                    <Typography
-                      sx={{
-                        marginBottom: "20px",
-                        color: "#637381",
-                        marginTop: "-30px",
-                        marginRight: "290px",
-                      }}
-                      fontSize={15}
-                      component="h1"
-                    >
-                      Enter your details below.{" "}
-                    </Typography>
+            >
+              Sign-In To Your Website
+            </Typography>
+            <br />
+            <Typography
+              sx={{
+                color: "#637381",
+              }}
+              component="h1"
+            >
+              Enter your details below.{" "}
+            </Typography>
 
-                    <TextField
-                      name="email"
-                      sx={{ marginBottom: "19px" }}
-                      label="Email address"
-                      type="email"
-                      variant="outlined"
-                      onChange={handleInputChange}
-                      value={formData.email}
-                      //  InputProps={{
-                      //   style: { backgroundColor: 'white' }
-                      // }}
-                    />
-
-                    <PasswordInput
-                      name="password"
-                      sx={{ marginBottom: "19px" }}
-                      label="Password"
-                      onChange={handleInputChange}
-                      value={formData.password}
-                      InputProps={{
-                        style: { backgroundColor: "white" },
-                      }}
-                    />
-
-                    <Button
-                      variant="contained"
-                      type="submit"
-                      sx={{
-                        marginTop: 2,
-                        marginBottom: "16px",
-                        maxWidth: "500px",
-                        backgroundColor: "green",
-                        "&:hover": {
-                          backgroundColor: "#3CB371		",
-                        },
-                      }}
-                    >
-                      Log In
-                    </Button>
-                    <Stack direction="row" spacing={28} marginTop={-1}>
-                      <Link component={RouterLink} to="/sign-up">
-                        <Typography
-                          // marginTop={-1}
-                          fontSize={16}
-                          color={"green"}
-                          // marginRight={-45}
-                          sx={{ textDecoration: "none" }}
-                        >
-                          SIGN UP ?
-                        </Typography>
-                      </Link>
-                      <Typography
-                        // marginTop={-1}
-                        fontSize={18}
-                        color={"green"}
-                        // marginRight={33}
-                        sx={{ textDecoration: "none" }}
-                      >
-                        <Button  onClick={forgotPasswordHandler} sx={{ color: "green", textDecoration: "none" }}>
-                          {" "}
-                          forgotPassword?
-                        </Button>
-                      </Typography>
-                    </Stack>
-
-                    <div>
-                      <Divider />
-                    </div>
-
-                    {/* <Divider  style={{ backgroundColor: 'white'  }} /> */}
-
-                    <Box
-                      sx={{
-                        marginTop: -1,
-                        marginLeft: "-5px",
-                        display: { md: "flex", width: "470px" },
-                      }}
-                    >
-                      <GoogleLoginButton onClick={handleGoogleLogin} />
-                      {/* <FacebookLoginButton
-                    onClick={handleFacebookLogin}
-                    style={{ width: "500px", height: "50px" }}
-                  /> */}
-                      {/* <GoogleButton onClick={handleFacebookLogin}/> */}
-                    </Box>
-                  </Container>       
-             
-              </Form>
-            </div>{" "}
-          </Grid>
-        </Grid>
-      </div>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                fullWidth
+                label="Email"
+                variant="outlined"
+                margin="normal"
+                required
+                type="email"
+                onChange={handleInputChange}
+                value={formData.email}
+              />
+              <TextField
+                fullWidth
+                label="Password"
+                variant="outlined"
+                margin="normal"
+                required
+                type="password"
+                onChange={handleInputChange}
+                value={formData.password}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                type="submit"
+                sx={{
+                  backgroundColor: "green",
+                  "&:hover": {
+                    backgroundColor: "#3CB371		",
+                  },
+                }}
+              >
+                Login
+              </Button>
+            </form>
+            <Stack direction="row">
+              <Link component={RouterLink} to="/sign-up">
+                <Typography sx={{ color: "green", textDecoration: "none" }}>
+                  SIGN UP ?
+                </Typography>
+              </Link>
+              <Typography>
+                <Button
+                  onClick={forgotPasswordHandler}
+                  sx={{ color: "green", textDecoration: "none" }}
+                >
+                  forgotPassword?
+                </Button>
+              </Typography>
+            </Stack>
+            <Divider />
+            <Box>
+              <GoogleLoginButton onClick={handleGoogleLogin} />
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
     </>
   );
 }
 export default SignIn;
+
 
 
 
